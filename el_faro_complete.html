@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Faro - Periódico Digital</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-red: #dc3545;
+            --dark-gray: #212529;
+            --light-gray: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--light-gray);
+        }
+
+        .navbar-brand img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+        }
+
+        .fecha-hora {
+            color: white;
+            font-size: 0.85rem;
+        }
+
+        .fecha {
+            font-weight: 600;
+        }
+
+        .hora {
+            color: #ffc107;
+        }
+
+        .form-card {
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: none;
+        }
+
+        .contador-badge {
+            background: linear-gradient(45deg, var(--primary-red), #ff6b6b);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--dark-gray), #495057);
+            color: white;
+        }
+
+        footer a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: white;
+        }
+
+        .alert-container {
+            background: linear-gradient(90deg, #fff3cd, #ffeaa7);
+        }
+
+        .nav-link.active {
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 5px;
+        }
+
+        .active-section {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .quick-nav {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: #6c757d;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 0.25rem;
+            transition: all 0.3s ease;
+        }
+
+        .quick-nav:hover {
+            background-color: #e9ecef;
+            color: #495057;
+        }
+
+        .quick-nav.active {
+            background-color: var(--primary-red);
+            color: white;
+        }
+
+        .sidebar-counter {
+            background-color: #6c757d;
+            color: white;
+            border-radius: 10px;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            margin-left: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sección superior de avisos -->
+    <div class="alert-container">
+        <div class="alert alert-warning alert-dismissible mb-0" role="alert">
+            <div class="container">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        <span class="fw-bold">AVISO IMPORTANTE:</span>
+                        <span class="ms-2">Sitio actualizado con nueva tecnología Bootstrap 5.</span>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Header con navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <div class="navbar-brand d-flex align-items-center">
+                <img src="https://i.imgur.com/4YhyJ5L.jpeg" alt="Logo El Faro" class="me-3 rounded">
+                <h1 class="text-danger mb-0 h3">El Faro</h1>
+            </div>
+            
+            <!-- Fecha y hora -->
+            <div class="fecha-hora d-none d-md-block">
+                <div class="fecha text-center" id="fecha-actual"></div>
+                <div class="hora text-center" id="hora-actual"></div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Navegación principal -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link text-white fw-bold active" href="#" onclick="showSection('inicio')">
+                            <i class="bi bi-house-fill me-1"></i>Inicio
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white fw-bold" href="#" onclick="showSection('deporte')">
+                            <i class="bi bi-trophy-fill me-1"></i>Deporte
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white fw-bold" href="#" onclick="showSection('negocios')">
+                            <i class="bi bi-briefcase-fill me-1"></i>Negocios
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white fw-bold" href="#" onclick="showSection('contacto')">
+                            <i class="bi bi-envelope-fill me-1"></i>Contacto
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumbs -->
+    <div class="container-fluid py-2 bg-light">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                    <a href="#" onclick="showSection('inicio')">
+                        <i class="bi bi-house me-1"></i>Inicio
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page" id="breadcrumb-current">
+                    Noticias Generales
+                </li>
+            </ol>
+        </nav>
+    </div>
+    
+    <!-- Contenido principal con sidebar -->
+    <div class="container-fluid py-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-2 col-md-3 mb-4">
+                <div class="card">
+                    <div class="card-header bg-dark text-white">
+                        <h6 class="mb-0"><i class="bi bi-list me-2"></i>Navegación Rápida</h6>
+                    </div>
+                    <div class="card-body p-2">
+                        <a href="#" class="quick-nav active d-flex align-items-center" onclick="showSection('inicio')" data-section="inicio">
+                            <i class="bi bi-newspaper me-2"></i>
+                            Noticias Generales
+                            <span class="sidebar-counter ms-auto" id="sidebar-contador-inicio">0</span>
+                        </a>
+                        <a href="#" class="quick-nav d-flex align-items-center" onclick="showSection('deporte')" data-section="deporte">
+                            <i class="bi bi-trophy me-2"></i>
+                            Deportes
+                            <span class="sidebar-counter ms-auto" id="sidebar-contador-deporte">0</span>
+                        </a>
+                        <a href="#" class="quick-nav d-flex align-items-center" onclick="showSection('negocios')" data-section="negocios">
+                            <i class="bi bi-briefcase me-2"></i>
+                            Negocios
+                            <span class="sidebar-counter ms-auto" id="sidebar-contador-negocios">0</span>
+                        </a>
+                        <a href="#" class="quick-nav d-flex align-items-center" onclick="showSection('contacto')" data-section="contacto">
+                            <i class="bi bi-envelope me-2"></i>
+                            Contacto
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenido principal -->
+            <div class="col-lg-10 col-md-9">
+                <!-- Sección Inicio -->
+                <section id="inicio" class="active-section">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="text-dark">
+                            <i class="bi bi-newspaper me-2"></i>Noticias Generales
+                        </h2>
+                        <span class="contador-badge" id="contador-inicio">0 artículos</span>
+                    </div>
+                    
+                    <!-- Formulario para agregar artículos -->
+                    <div class="card form-card mb-4">
+                        <div class="card-header bg-danger text-white">
+                            <h5 class="mb-0"><i class="bi bi-plus-circle me-2"></i>Agregar Nuevo Artículo</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="form-articulo-inicio" class="needs-validation" novalidate>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="titulo-inicio" class="form-label fw-bold">Título del artículo:</label>
+                                        <input type="text" class="form-control" id="titulo-inicio" required>
+                                        <div class="invalid-feedback">Por favor ingrese un título.</div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="categoria-inicio" class="form-label fw-bold">Categoría:</label>
+                                        <select class="form-select" id="categoria-inicio">
+                                            <option value="Nacional">Nacional</option>
+                                            <option value="Internacional">Internacional</option>
+                                            <option value="Tendencias">Tendencias</option>
+                                            <option value="Tecnología">Tecnología</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="descripcion-inicio" class="form-label fw-bold">Descripción del artículo:</label>
+                                    <textarea class="form-control" id="descripcion-inicio" rows="3" required></textarea>
+                                    <div class="invalid-feedback">Por favor ingrese una descripción.</div>
+                                </div>
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="bi bi-send me-2"></i>Publicar Artículo
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Artículos destacados -->
+                    <div class="mb-4">
+                        <h4 class="text-danger mb-3">Artículos Destacados</h4>
+                        <div class="row g-4" id="articulos-destacados-inicio">
+                            <!-- Se llenan dinámicamente -->
+                        </div>
+                    </div>
+                    
+                    <!-- Otros artículos (más pequeños) -->
+                    <div class="mb-4">
+                        <h5 class="text-secondary mb-3">Otras Noticias</h5>
+                        <div class="row g-3" id="articulos-secundarios-inicio">
+                            <!-- Se llenan dinámicamente -->
+                        </div>
+                    </div>
+                    
+                    <!-- Video destacado -->
+                    <div class="row justify-content-center mt-5">
+                        <div class="col-lg-8">
+                            <div class="card">
+                                <div class="card-header bg-danger text-white text-center">
+                                    <h5 class="mb-0"><i class="bi bi-play-circle me-2"></i>Video Destacado</h5>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="ratio ratio-16x9">
+                                        <iframe src="https://www.youtube.com/embed/Vc85JECZ0b4" 
+                                                title="Video destacado" 
+                                                allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Sección Deporte -->
+                <section id="deporte" class="d-none">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="text-dark">
+                            <i class="bi bi-trophy me-2"></i>Deportes
+                        </h2>
+                        <span class="contador-badge" id="contador-deporte">0 artículos</span>
+                    </div>
+                    
+                    <!-- Formulario para agregar artículos de deporte -->
+                    <div class="card form-card mb-4">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="mb-0"><i class="bi bi-plus-circle me-2"></i>Agregar Artículo Deportivo</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="form-articulo-deporte" class="needs-validation" novalidate>
+                                <div class="row">
+                                    <div class="col-md-8 mb-3">
+                                        <label for="titulo-deporte" class="form-label fw-bold">Título del artículo:</label>
+                                        <input type="text" class="form-control" id="titulo-deporte" required>
+                                        <div class="invalid-feedback">Por favor ingrese un título.</div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="deporte-categoria" class="form-label fw-bold">Deporte:</label>
+                                        <select class="form-select" id="deporte-categoria">
+                                            <option value="Fútbol">Fútbol</option>
+                                            <option value="Tennis">Tennis</option>
+                                            <option value="Básquetbol">Básquetbol</option>
+                                            <option value="Atletismo">Atletismo</option>
+                                            <option value="Otros">Otros</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="descripcion-deporte" class="form-label fw-bold">Descripción del artículo:</label>
+                                    <textarea class="form-control" id="descripcion-deporte" rows="3" required></textarea>
+                                    <div class="invalid-feedback">Por favor ingrese una descripción.</div>
+                                </div>
+                                <button type="submit" class="btn btn-success">
+                                    <i class="bi bi-send me-2"></i>Publicar Artículo
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="row g-4" id="articulos-deporte">
+                        <!-- Se llenan dinámicamente -->
+                    </div>
+                </section>
+                
+                <!-- Sección Negocios -->
+                <section id="negocios" class="d-none">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="text-dark">
+                            <i class="bi bi-briefcase me-2"></i>Negocios
+                        </h2>
+                        <span class="contador-badge" id="contador-negocios">0 artículos</span>
+                    </div>
+                    
+                    <!-- Formulario para agregar artículos de negocios -->
+                    <div class="card form-card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0"><i class="bi bi-plus-circle me-2"></i>Agregar Artículo de Negocios</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="form-articulo-negocios" class="needs-validation" novalidate>
+                                <div class="row">
+                                    <div class="col-md-8 mb-3">
+                                        <label for="titulo-negocios" class="form-label fw-bold">Título del artículo:</label>
+                                        <input type="text" class="form-control" id="titulo-negocios" required>
+                                        <div class="invalid-feedback">Por favor ingrese un título.</div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="negocio-categoria" class="form-label fw-bold">Sector:</label>
+                                        <select class="form-select" id="negocio-categoria">
+                                            <option value="Finanzas">Finanzas</option>
+                                            <option value="Tecnología">Tecnología</option>
+                                            <option value="Inmobiliario">Inmobiliario</option>
+                                            <option value="Retail">Retail</option>
+                                            <option value="Economía">Economía</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="descripcion-negocios" class="form-label fw-bold">Descripción del artículo:</label>
+                                    <textarea class="form-control" id="descripcion-negocios" rows="3" required></textarea>
+                                    <div class="invalid-feedback">Por favor ingrese una descripción.</div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-send me-2"></i>Publicar Artículo
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="row g-4" id="articulos-negocios">
+                        <!-- Se llenan dinámicamente -->
+                    </div>
+                    
+                    <!-- Video de negocios -->
+                    <div class="row justify-content-center mt-5">
+                        <div class="col-lg-8">
+                            <div class="card">
+                                <div class="card-header bg-primary text-white text-center">
+                                    <h5 class="mb-0"><i class="bi bi-play-circle me-2"></i>Video de Negocios</h5>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="ratio ratio-16x9">
+                                        <iframe src="https://www.youtube.com/embed/1WmJEXhKkHU" 
+                                                title="Video de negocios" 
+                                                allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Sección Contacto -->
+                <section id="contacto" class="d-none">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <h2 class="text-dark mb-4">
+                                <i class="bi bi-envelope me-2"></i>Contacto
+                            </h2>
+                            
+                            <div class="card">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="mb-0"><i class="bi bi-chat-dots me-2"></i>Envíanos un mensaje</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="form-contacto" class="needs-validation" novalidate>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="nombre-contacto" class="form-label fw-bold">Nombre completo:</label>
+                                                <input type="text" class="form-control" id="nombre-contacto" required>
+                                                <div class="invalid-feedback">Por favor ingrese su nombre.</div>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="email-contacto" class="form-label fw-bold">Correo electrónico:</label>
+                                                <input type="email" class="form-control" id="email-contacto" required>
+                                                <div class="invalid-feedback">Por favor ingrese un email válido.</div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="asunto-contacto" class="form-label fw-bold">Asunto:</label>
+                                            <select class="form-select" id="asunto-contacto">
+                                                <option value="consulta">Consulta General</option>
+                                                <option value="sugerencia">Sugerencia</option>
+                                                <option value="reclamo">Reclamo</option>
+                                                <option value="colaboracion">Propuesta de Colaboración</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="mensaje-contacto" class="form-label fw-bold">Mensaje:</label>
+                                            <textarea class="form-control" id="mensaje-contacto" rows="5" required></textarea>
+                                            <div class="invalid-feedback">Por favor ingrese su mensaje.</div>
+                                        </div>
+                                        <button type="submit" class="btn btn-info">
+                                            <i class="bi bi-send me-2"></i>Enviar Mensaje
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer expandido -->
+    <footer class="py-5 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="fw-bold">Sobre El Faro</h5>
+                    <p class="text-muted small">
+                        El Faro es un periódico digital comprometido con informar con veracidad y transparencia sobre los acontecimientos más relevantes de Chile y el mundo.
+                    </p>
+                    <div class="d-flex gap-2 mt-3">
+                        <a href="#" class="btn btn-outline-light btn-sm">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline-light btn-sm">
+                            <i class="bi bi-twitter"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline-light btn-sm">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline-light btn-sm">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="fw-bold">Secciones</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" onclick="showSection('inicio')">Noticias Generales</a></li>
+                        <li><a href="#" onclick="showSection('deporte')">Deportes</a></li>
+                        <li><a href="#" onclick="showSection('negocios')">Negocios</a></li>
+                        <li><a href="#" onclick="showSection('contacto')">Contacto</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="fw-bold">Contacto</h5>
+                    <ul class="list-unstyled text-muted small">
+                        <li><i class="bi bi-geo-alt me-2"></i>Santiago, Chile</li>
+                        <li><i class="bi bi-telephone me-2"></i>+56 2 2345 6789</li>
+                        <li><i class="bi bi-envelope me-2"></i>contacto@elfaro.cl</li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="fw-bold">Enlaces Útiles</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Política de Privacidad</a></li>
+                        <li><a href="#">Términos y Condiciones</a></li>
+                        <li><a href="#">Código de Ética</a></li>
+                        <li><a href="#">Publicidad</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <hr class="border-secondary my-4">
+            
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0 text-muted">&copy; 2023 El Faro. Todos los derechos reservados.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0 text-muted small">
+                        Noticias obtenidas de <a href="https://www.emol.com" target="_blank">EMOL.com</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- JavaScript personalizado integrado -->
+    <script>
+        // Configuración de secciones mejorada
+        const sectionConfig = {
+            'inicio': { 
+                title: 'Noticias Generales', 
+                breadcrumb: 'Noticias Generales',
+                icon: 'bi-newspaper'
+            },
+            'deporte': { 
+                title: 'Deportes', 
+                breadcrumb: 'Deportes',
+                icon: 'bi-trophy'
+            },
+            'negocios': { 
+                title: 'Negocios', 
+                breadcrumb: 'Negocios',
+                icon: 'bi-briefcase'
+            },
+            'contacto': { 
+                title: 'Contacto', 
+                breadcrumb: 'Contacto',
+                icon: 'bi-envelope'
+            }
+        };
+
+        // Función mejorada para mostrar secciones
+        function showSection(sectionName) {
+            // Ocultar todas las secciones
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.add('d-none');
+            });
+            
+            // Mostrar sección seleccionada
+            const targetSection = document.getElementById(sectionName);
+            if (targetSection) {
+                targetSection.classList.remove('d-none');
+                targetSection.classList.add('active-section');
+            }
+            
+            // Actualizar navbar principal
+            document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            const activeNavLink = document.querySelector(`[onclick="showSection('${sectionName}')"]`);
+            if (activeNavLink && activeNavLink.classList.contains('nav-link')) {
+                activeNavLink.classList.add('active');
+            }
+            
+            // Actualizar sidebar navigation
+            document.querySelectorAll('.quick-nav').forEach(link => {
+                link.classList.remove('active');
+            });
+            const sidebarLink = document.querySelector(`[data-section="${sectionName}"]`);
+            if (sidebarLink) {
+                sidebarLink.classList.add('active');
+            }
+            
+            // Actualizar breadcrumbs
+            updateBreadcrumbs(sectionName);
+            
+            // Actualizar contadores en sidebar
+            updateSidebarCounters();
+        }
+
+        // Función para actualizar breadcrumbs
+        function updateBreadcrumbs(sectionName) {
+            const breadcrumbCurrent = document.getElementById('breadcrumb-current');
+            if (breadcrumbCurrent && sectionConfig[sectionName]) {
+                breadcrumbCurrent.textContent = sectionConfig[sectionName].breadcrumb;
+            }
+        }
+
+        // Función para actualizar contadores en sidebar
+        function updateSidebarCounters() {
+            // Contador inicio
+            const inicioCount = document.querySelectorAll('#articulos-destacados-inicio .card, #articulos-secundarios-inicio .card').length;
+            const sidebarInicio = document.getElementById('sidebar-contador-inicio');
+            if (sidebarInicio) sidebarInicio.textContent = inicioCount;
+            
+            // Contador deporte
+            const deporteCount = document.querySelectorAll('#articulos-deporte .card').length;
+            const sidebarDeporte = document.getElementById('sidebar-contador-deporte');
+            if (sidebarDeporte) sidebarDeporte.textContent = deporteCount;
+            
+            // Contador negocios
+            const negociosCount = document.querySelectorAll('#articulos-negocios .card').length;
+            const sidebarNegocios = document.getElementById('sidebar-contador-negocios');
+            if (sidebarNegocios) sidebarNegocios.textContent = negociosCount;
+        }
+
+        // Arrays para almacenar artículos
+        let articulosInicio = [];
+        let articulosDeporte = [];
+        let articulosNegocios = [];
+
+        // Función para actualizar contadores principales
+        function actualizarContador(seccion) {
+            const contadorElement = document.getElementById(`contador-${seccion}`);
+            let cantidad = 0;
+            
+            switch(seccion) {
+                case 'inicio':
+                    cantidad = articulosInicio.length;
+                    break;
+                case 'deporte':
+                    cantidad = articulosDeporte.length;
+                    break;
+                case 'negocios':
+                    cantidad = articulosNegocios.length;
+                    break;
+            }
+            
+            if (contadorElement) {
+                contadorElement.textContent = `${cantidad} artículo${cantidad !== 1 ? 's' : ''}`;
+            }
+            
+            // Actualizar también sidebar
+            updateSidebarCounters();
+        }
+
+        // Función para crear artículo mejorada
+        function crearArticulo(titulo, descripcion, categoria, seccion, tipo = 'normal') {
+            const articulo = {
+                id: Date.now() + Math.random(),
+                titulo,
+                descripcion,
+                categoria,
+                fecha: new Date().toLocaleDateString('es-CL'),
+                hora: new Date().toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' }),
+                tipo
+            };
+
+            // Agregar al array correspondiente
+            switch(seccion) {
+                case 'inicio':
+                    articulosInicio.push(articulo);
+                    break;
+                case 'deporte':
+                    articulosDeporte.push(articulo);
+                    break;
+                case 'negocios':
+                    articulosNegocios.push(articulo);
+                    break;
+            }
+
+            renderizarArticulos(seccion);
+            actualizarContador(seccion);
+        }
+
+        // Función para renderizar artículos mejorada
+        function renderizarArticulos(seccion) {
+            let articulos, containerDestacados, containerSecundarios;
+            
+            switch(seccion) {
+                case 'inicio':
+                    articulos = articulosInicio;
+                    containerDestacados = document.getElementById('articulos-destacados-inicio');
+                    containerSecundarios = document.getElementById('articulos-secundarios-inicio');
+                    break;
+                case 'deporte':
+                    articulos = articulosDeporte;
+                    containerDestacados = document.getElementById('articulos-deporte');
+                    break;
+                case 'negocios':
+                    articulos = articulosNegocios;
+                    containerDestacados = document.getElementById('articulos-negocios');
+                    break;
+            }
+
+            if (seccion === 'inicio') {
+                // Para inicio, separar destacados y secundarios
+                const destacados = articulos.slice(0, 3);
+                const secundarios = articulos.slice(3);
+                
+                if (containerDestacados) {
+                    containerDestacados.innerHTML = destacados.map(articulo => crearTarjetaHTML(articulo, 'destacado')).join('');
+                }
+                
+                if (containerSecundarios) {
+                    containerSecundarios.innerHTML = secundarios.map(articulo => crearTarjetaHTML(articulo, 'secundario')).join('');
+                }
+            } else {
+                // Para otras secciones, todos son del mismo tamaño
+                if (containerDestacados) {
+                    containerDestacados.innerHTML = articulos.map(articulo => crearTarjetaHTML(articulo, 'normal')).join('');
+                }
+            }
+        }
+
+        // Función para crear HTML de tarjeta mejorada
+        function crearTarjetaHTML(articulo, tipo) {
+            const colClass = tipo === 'destacado' ? 'col-lg-4 col-md-6 col-sm-12' : 
+                             tipo === 'secundario' ? 'col-lg-3 col-md-4 col-sm-6' : 
+                             'col-lg-4 col-md-6 col-sm-12';
+            
+            const cardClass = tipo === 'destacado' ? 'h-100 border-danger shadow' :
+                             tipo === 'secundario' ? 'h-100 shadow-sm' :
+                             'h-100 shadow';
+
+            return `
+                <div class="${colClass} mb-4">
+                    <div class="card ${cardClass} position-relative">
+                        <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center">
+                            <span class="badge bg-light text-dark">${articulo.categoria}</span>
+                            <button class="btn btn-sm btn-outline-light opacity-75" onclick="eliminarArticulo('${articulo.id}')">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title ${tipo === 'secundario' ? 'fs-6' : ''}">${articulo.titulo}</h5>
+                            <p class="card-text text-muted ${tipo === 'secundario' ? 'small' : ''}">${articulo.descripcion}</p>
+                        </div>
+                        <div class="card-footer text-muted small">
+                            <i class="bi bi-calendar me-1"></i>${articulo.fecha}
+                            <i class="bi bi-clock ms-2 me-1"></i>${articulo.hora}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Función para eliminar artículo
+        function eliminarArticulo(id) {
+            // Buscar y eliminar del array correspondiente
+            articulosInicio = articulosInicio.filter(a => a.id != id);
+            articulosDeporte = articulosDeporte.filter(a => a.id != id);
+            articulosNegocios = articulosNegocios.filter(a => a.id != id);
+            
+            // Re-renderizar todas las secciones
+            renderizarArticulos('inicio');
+            renderizarArticulos('deporte');
+            renderizarArticulos('negocios');
+            
+            // Actualizar contadores
+            actualizarContador('inicio');
+            actualizarContador('deporte');
+            actualizarContador('negocios');
+        }
+
+        // Event listeners para formularios
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fecha y hora
+            function actualizarFechaHora() {
+                const ahora = new Date();
+                const fechaElement = document.getElementById('fecha-actual');
+                const horaElement = document.getElementById('hora-actual');
+                
+                if (fechaElement) {
+                    fechaElement.textContent = ahora.toLocaleDateString('es-CL', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                }
+                
+                if (horaElement) {
+                    horaElement.textContent = ahora.toLocaleTimeString('es-CL');
+                }
+            }
+            
+            actualizarFechaHora();
+            setInterval(actualizarFechaHora, 1000);
+
+            // Formulario de inicio
+            const formInicio = document.getElementById('form-articulo-inicio');
+            if (formInicio) {
+                formInicio.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    if (formInicio.checkValidity()) {
+                        const titulo = document.getElementById('titulo-inicio').value;
+                        const descripcion = document.getElementById('descripcion-inicio').value;
+                        const categoria = document.getElementById('categoria-inicio').value;
+                        
+                        crearArticulo(titulo, descripcion, categoria, 'inicio');
+                        formInicio.reset();
+                        formInicio.classList.remove('was-validated');
+                    } else {
+                        formInicio.classList.add('was-validated');
+                    }
+                });
+            }
+
+            // Formulario de deporte
+            const formDeporte = document.getElementById('form-articulo-deporte');
+            if (formDeporte) {
+                formDeporte.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    if (formDeporte.checkValidity()) {
+                        const titulo = document.getElementById('titulo-deporte').value;
+                        const descripcion = document.getElementById('descripcion-deporte').value;
+                        const categoria = document.getElementById('deporte-categoria').value;
+                        
+                        crearArticulo(titulo, descripcion, categoria, 'deporte');
+                        formDeporte.reset();
+                        formDeporte.classList.remove('was-validated');
+                    } else {
+                        formDeporte.classList.add('was-validated');
+                    }
+                });
+            }
+
+            // Formulario de negocios
+            const formNegocios = document.getElementById('form-articulo-negocios');
+            if (formNegocios) {
+                formNegocios.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    if (formNegocios.checkValidity()) {
+                        const titulo = document.getElementById('titulo-negocios').value;
+                        const descripcion = document.getElementById('descripcion-negocios').value;
+                        const categoria = document.getElementById('negocio-categoria').value;
+                        
+                        crearArticulo(titulo, descripcion, categoria, 'negocios');
+                        formNegocios.reset();
+                        formNegocios.classList.remove('was-validated');
+                    } else {
+                        formNegocios.classList.add('was-validated');
+                    }
+                });
+            }
+
+            // Formulario de contacto
+            const formContacto = document.getElementById('form-contacto');
+            if (formContacto) {
+                formContacto.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    if (formContacto.checkValidity()) {
+                        alert('¡Mensaje enviado correctamente!');
+                        formContacto.reset();
+                        formContacto.classList.remove('was-validated');
+                    } else {
+                        formContacto.classList.add('was-validated');
+                    }
+                });
+            }
+
+            // Inicializar contadores
+            actualizarContador('inicio');
+            actualizarContador('deporte');
+            actualizarContador('negocios');
+        });
+    </script>
+</body>
+</html>
