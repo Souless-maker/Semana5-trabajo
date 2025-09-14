@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Faro - Periódico Digital</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <!-- CSS personalizado -->
+    <link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Sección superior de avisos -->
+    <div class="alert-container">
+        <div class="alert alert-warning alert-dismissible mb-0" role="alert">
+            <div class="container">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        <span class="fw-bold">AVISO IMPORTANTE:</span>
+                        <span class="ms-2">Sitio actualizado con nueva tecnología Bootstrap 5.</span>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Header con navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <div class="navbar-brand d-flex align-items-center">
+                <img src="assets/images/logo.jpg" alt="Logo El Faro" class="me-3 rounded">
+                <h1 class="text-danger mb-0 h3">El Faro</h1>
+            </div>
+            
+            <!-- Fecha y hora -->
+            <div class="fecha-hora d-none d-md-block">
+                <div class="fecha text-center" id="fecha-actual"></div>
+                <div class="hora text-center" id="hora-actual"></div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Navegación principal -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link text-white fw-bold active" href="#" onclick="showSection('inicio')">
+                            <i class="bi bi-house-fill me-1"></i>Inicio
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white fw-bold" href="#" onclick="showSection('deporte')">
+                            <i class="bi bi-trophy-fill me-1"></i>Deporte
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white fw-bold" href="#" onclick="showSection('negocios')">
+                            <i class="bi bi-briefcase-fill me-1"></i>Negocios
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white fw-bold" href="#" onclick="showSection('contacto')">
+                            <i class="bi bi-envelope-fill me-1"></i>Contacto
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumbs -->
+    <div class="container-fluid py-2 bg-light">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                    <a href="#" onclick="showSection('inicio')">
+                        <i class="bi bi-house me-1"></i>Inicio
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page" id="breadcrumb-current">
+                    Noticias Generales
+                </li>
+            </ol>
+        </nav>
+    </div>
+    
+    <!-- Contenido principal con sidebar -->
+    <div class="container-fluid py-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-2 col-md-3 mb-4">
+                <div class="card">
+                    <div class="card-header bg-dark text-white">
+                        <h6 class="mb-0"><i class="bi bi-list me-2"></i>Navegación Rápida</h6>
+                    </div>
+                    <div class="card-body p-2">
+                        <a href="#" class="quick-nav active d-flex align-items-center" onclick="showSection('inicio')" data-section="inicio">
+                            <i class="bi bi-newspaper me-2"></i>
+                            Noticias Generales
+                            <span class="sidebar-counter ms-auto" id="sidebar-contador-inicio">0</span>
+                        </a>
+                        <a href="#" class="quick-nav d-flex align-items-center" onclick="showSection('deporte')" data-section="deporte">
+                            <i class="bi bi-trophy me-2"></i>
+                            Deportes
+                            <span class="sidebar-counter ms-auto" id="sidebar-contador-deporte">0</span>
+                        </a>
+                        <a href="#" class="quick-nav d-flex align-items-center" onclick="showSection('negocios')" data-section="negocios">
+                            <i class="bi bi-briefcase me-2"></i>
+                            Negocios
+                            <span class="sidebar-counter ms-auto" id="sidebar-contador-negocios">0</span>
+                        </a>
+                        <a href="#" class="quick-nav d-flex align-items-center" onclick="showSection('contacto')" data-section="contacto">
+                            <i class="bi bi-envelope me-2"></i>
+                            Contacto
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenido principal -->
+            <div class="col-lg-10 col-md-9">
+                <!-- Sección Inicio -->
+                <section id="inicio" class="active-section">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="text-dark">
+                            <i class="bi bi-newspaper me-2"></i>Noticias Generales
+                        </h2>
+                        <span class="contador-badge" id="contador-inicio">0 artículos</span>
+                    </div>
+                    
+                    <!-- Formulario para agregar artículos -->
+                    <div class="card form-card mb-4">
+                        <div class="card-header bg-danger text-white">
+                            <h5 class="mb-0"><i class="bi bi-plus-circle me-2"></i>Agregar Nuevo Artículo</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="form-articulo-inicio" class="needs-validation" novalidate>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="titulo-inicio" class="form-label fw-bold">Título del artículo:</label>
+                                        <input type="text" class="form-control" id="titulo-inicio" required>
+                                        <div class="invalid-feedback">Por favor ingrese un título.</div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="categoria-inicio" class="form-label fw-bold">Categoría:</label>
+                                        <select class="form-select" id="categoria-inicio">
+                                            <option value="Nacional">Nacional</option>
+                                            <option value="Internacional">Internacional</option>
+                                            <option value="Tendencias">Tendencias</option>
+                                            <option value="Tecnología">Tecnología</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="descripcion-inicio" class="form-label fw-bold">Descripción del artículo:</label>
+                                    <textarea class="form-control" id="descripcion-inicio" rows="3" required></textarea>
+                                    <div class="invalid-feedback">Por favor ingrese una descripción.</div>
+                                </div>
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="bi bi-send me-2"></i>Publicar Artículo
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Artículos destacados -->
+                    <div class="mb-4">
+                        <h4 class="text-danger mb-3">Artículos Destacados</h4>
+                        <div class="row g-4" id="articulos-destacados-inicio">
+                            <!-- Se llenan dinámicamente -->
+                        </div>
+                    </div>
+                    
+                    <!-- Otros artículos (más pequeños) -->
+                    <div class="mb-4">
+                        <h5 class="text-secondary mb-3">Otras Noticias</h5>
+                        <div class="row g-3" id="articulos-secundarios-inicio">
+                            <!-- Se llenan dinámicamente -->
+                        </div>
+                    </div>
+                    
+                    <!-- Video destacado -->
+                    <div class="row justify-content-center mt-5">
+                        <div class="col-lg-8">
+                            <div class="card">
+                                <div class="card-header bg-danger text-white text-center">
+                                    <h5 class="mb-0"><i class="bi bi-play-circle me-2"></i>Video Destacado</h5>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="ratio ratio-16x9">
+                                        <iframe src="https://www.youtube.com/embed/Vc85JECZ0b4" 
+                                                title="Video destacado" 
+                                                allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Sección Deporte -->
+                <section id="deporte" class="d-none">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="text-dark">
+                            <i class="bi bi-trophy me-2"></i>Deportes
+                        </h2>
+                        <span class="contador-badge" id="contador-deporte">0 artículos</span>
+                    </div>
+                    
+                    <!-- Formulario para agregar artículos de deporte -->
+                    <div class="card form-card mb-4">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="mb-0"><i class="bi bi-plus-circle me-2"></i>Agregar Artículo Deportivo</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="form-articulo-deporte" class="needs-validation" novalidate>
+                                <div class="row">
+                                    <div class="col-md-8 mb-3">
+                                        <label for="titulo-deporte" class="form-label fw-bold">Título del artículo:</label>
+                                        <input type="text" class="form-control" id="titulo-deporte" required>
+                                        <div class="invalid-feedback">Por favor ingrese un título.</div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="deporte-categoria" class="form-label fw-bold">Deporte:</label>
+                                        <select class="form-select" id="deporte-categoria">
+                                            <option value="Fútbol">Fútbol</option>
+                                            <option value="Tennis">Tennis</option>
+                                            <option value="Básquetbol">Básquetbol</option>
+                                            <option value="Atletismo">Atletismo</option>
+                                            <option value="Otros">Otros</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="descripcion-deporte" class="form-label fw-bold">Descripción del artículo:</label>
+                                    <textarea class="form-control" id="descripcion-deporte" rows="3" required></textarea>
+                                    <div class="invalid-feedback">Por favor ingrese una descripción.</div>
+                                </div>
+                                <button type="submit" class="btn btn-success">
+                                    <i class="bi bi-send me-2"></i>Publicar Artículo
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="row g-4" id="articulos-deporte">
+                        <!-- Se llenan dinámicamente -->
+                    </div>
+                </section>
+                
+                <!-- Sección Negocios -->
+                <section id="negocios" class="d-none">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="text-dark">
+                            <i class="bi bi-briefcase me-2"></i>Negocios
+                        </h2>
+                        <span class="contador-badge" id="contador-negocios">0 artículos</span>
+                    </div>
+                    
+                    <!-- Formulario para agregar artículos de negocios -->
+                    <div class="card form-card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0"><i class="bi bi-plus-circle me-2"></i>Agregar Artículo de Negocios</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="form-articulo-negocios" class="needs-validation" novalidate>
+                                <div class="row">
+                                    <div class="col-md-8 mb-3">
+                                        <label for="titulo-negocios" class="form-label fw-bold">Título del artículo:</label>
+                                        <input type="text" class="form-control" id="titulo-negocios" required>
+                                        <div class="invalid-feedback">Por favor ingrese un título.</div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="negocio-categoria" class="form-label fw-bold">Sector:</label>
+                                        <select class="form-select" id="negocio-categoria">
+                                            <option value="Finanzas">Finanzas</option>
+                                            <option value="Tecnología">Tecnología</option>
+                                            <option value="Inmobiliario">Inmobiliario</option>
+                                            <option value="Retail">Retail</option>
+                                            <option value="Economía">Economía</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="descripcion-negocios" class="form-label fw-bold">Descripción del artículo:</label>
+                                    <textarea class="form-control" id="descripcion-negocios" rows="3" required></textarea>
+                                    <div class="invalid-feedback">Por favor ingrese una descripción.</div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-send me-2"></i>Publicar Artículo
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="row g-4" id="articulos-negocios">
+                        <!-- Se llenan dinámicamente -->
+                    </div>
+                    
+                    <!-- Video de negocios -->
+                    <div class="row justify-content-center mt-5">
+                        <div class="col-lg-8">
+                            <div class="card">
+                                <div class="card-header bg-primary text-white text-center">
+                                    <h5 class="mb-0"><i class="bi bi-play-circle me-2"></i>Video de Negocios</h5>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="ratio ratio-16x9">
+                                        <iframe src="https://www.youtube.com/embed/1WmJEXhKkHU" 
+                                                title="Video de negocios" 
+                                                allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Sección Contacto -->
+                <section id="contacto" class="d-none">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <h2 class="text-dark mb-4">
+                                <i class="bi bi-envelope me-2"></i>Contacto
+                            </h2>
+                            
+                            <div class="card">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="mb-0"><i class="bi bi-chat-dots me-2"></i>Envíanos un mensaje</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="form-contacto" class="needs-validation" novalidate>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="nombre-contacto" class="form-label fw-bold">Nombre completo:</label>
+                                                <input type="text" class="form-control" id="nombre-contacto" required>
+                                                <div class="invalid-feedback">Por favor ingrese su nombre.</div>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="email-contacto" class="form-label fw-bold">Correo electrónico:</label>
+                                                <input type="email" class="form-control" id="email-contacto" required>
+                                                <div class="invalid-feedback">Por favor ingrese un email válido.</div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="asunto-contacto" class="form-label fw-bold">Asunto:</label>
+                                            <select class="form-select" id="asunto-contacto">
+                                                <option value="consulta">Consulta General</option>
+                                                <option value="sugerencia">Sugerencia</option>
+                                                <option value="reclamo">Reclamo</option>
+                                                <option value="colaboracion">Propuesta de Colaboración</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="mensaje-contacto" class="form-label fw-bold">Mensaje:</label>
+                                            <textarea class="form-control" id="mensaje-contacto" rows="5" required></textarea>
+                                            <div class="invalid-feedback">Por favor ingrese su mensaje.</div>
+                                        </div>
+                                        <button type="submit" class="btn btn-info">
+                                            <i class="bi bi-send me-2"></i>Enviar Mensaje
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer expandido -->
+    <footer class="py-5 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="fw-bold">Sobre El Faro</h5>
+                    <p class="text-muted small">
+                        El Faro es un periódico digital comprometido con informar con veracidad y transparencia sobre los acontecimientos más relevantes de Chile y el mundo.
+                    </p>
+                    <div class="d-flex gap-2 mt-3">
+                        <a href="#" class="btn btn-outline-light btn-sm">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline-light btn-sm">
+                            <i class="bi bi-twitter"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline-light btn-sm">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline-light btn-sm">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="fw-bold">Secciones</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" onclick="showSection('inicio')">Noticias Generales</a></li>
+                        <li><a href="#" onclick="showSection('deporte')">Deportes</a></li>
+                        <li><a href="#" onclick="showSection('negocios')">Negocios</a></li>
+                        <li><a href="#" onclick="showSection('contacto')">Contacto</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="fw-bold">Contacto</h5>
+                    <ul class="list-unstyled text-muted small">
+                        <li><i class="bi bi-geo-alt me-2"></i>Santiago, Chile</li>
+                        <li><i class="bi bi-telephone me-2"></i>+56 2 2345 6789</li>
+                        <li><i class="bi bi-envelope me-2"></i>contacto@elfaro.cl</li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="fw-bold">Enlaces Útiles</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Política de Privacidad</a></li>
+                        <li><a href="#">Términos y Condiciones</a></li>
+                        <li><a href="#">Código de Ética</a></li>
+                        <li><a href="#">Publicidad</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <hr class="border-secondary my-4">
+            
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0 text-muted">&copy; 2023 El Faro. Todos los derechos reservados.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0 text-muted small">
+                        Noticias obtenidas de <a href="https://www.emol.com" target="_blank">EMOL.com</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- JavaScript personalizado -->
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
